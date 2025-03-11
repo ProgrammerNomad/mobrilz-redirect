@@ -24,6 +24,14 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
             overflow: hidden;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
@@ -38,6 +46,9 @@
             opacity: 0;
             transform: translateY(30px);
             animation: fadeIn 0.8s ease-out forwards;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: fadeIn 0.8s ease-out forwards, float 6s ease-in-out infinite;
         }
 
         @keyframes fadeIn {
@@ -47,13 +58,19 @@
             }
         }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(0); }
+            50% { transform: translateY(-10px) rotateX(2deg); }
+        }
+
         h1 {
             margin-bottom: 25px;
             font-weight: 700;
             color: #2c3e50;
             font-size: 28px;
             opacity: 0;
-            animation: slideIn 0.6s ease-out 0.3s forwards;
+            animation: slideIn 0.6s ease-out 0.3s forwards, glow 2s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(44, 62, 80, 0.1);
         }
 
         @keyframes slideIn {
@@ -61,6 +78,11 @@
                 opacity: 1;
                 transform: translateX(0);
             }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(44, 62, 80, 0.1); }
+            50% { text-shadow: 0 0 20px rgba(52, 152, 219, 0.3); }
         }
 
         .loader-container {
@@ -86,6 +108,8 @@
             height: 100%;
             border-top-color: #3498db;
             animation: spin 1.5s linear infinite;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+            filter: blur(0.5px);
         }
 
         .loader-circle:nth-child(2) {
@@ -96,6 +120,7 @@
             border-top-color: #2ecc71;
             animation-duration: 1.8s;
             animation-direction: reverse;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
         }
 
         .loader-circle:nth-child(3) {
@@ -105,6 +130,7 @@
             left: 20%;
             border-top-color: #e74c3c;
             animation-duration: 1.2s;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
         }
 
         @keyframes spin {
@@ -126,6 +152,25 @@
             width: 0;
             background: linear-gradient(to right, #3498db, #2ecc71);
             animation: progress 5s linear forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100px;
+            background: rgba(255, 255, 255, 0.3);
+            animation: wave 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(50%); }
+            100% { transform: translateX(200%); }
         }
 
         @keyframes progress {
@@ -145,6 +190,14 @@
         .countdown {
             font-weight: 500;
             color: #3498db;
+            display: inline-block;
+            animation: bounce 0.5s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         a {
@@ -243,12 +296,16 @@
             const particle = document.createElement('div');
             particle.classList.add('particle');
             
-            // Random positioning and timing
+            const colors = ['rgba(52, 152, 219, 0.2)', 'rgba(46, 204, 113, 0.2)', 'rgba(231, 76, 60, 0.2)'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            particle.style.backgroundColor = randomColor;
             particle.style.left = `${Math.random() * 100}vw`;
             particle.style.animationDelay = `${Math.random() * 15}s`;
             particle.style.opacity = `${Math.random() * 0.5}`;
             particle.style.width = `${Math.random() * 15 + 5}px`;
             particle.style.height = particle.style.width;
+            particle.style.transform = `rotate(${Math.random() * 360}deg)`;
             
             particlesContainer.appendChild(particle);
         }
@@ -260,6 +317,9 @@
         const timer = setInterval(() => {
             timeLeft--;
             countdownElement.textContent = timeLeft;
+            countdownElement.style.animation = 'none';
+            countdownElement.offsetHeight; // Trigger reflow
+            countdownElement.style.animation = 'bounce 0.5s ease-in-out';
             
             if (timeLeft <= 0) {
                 clearInterval(timer);
