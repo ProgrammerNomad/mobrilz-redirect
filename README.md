@@ -6,13 +6,13 @@ A modern, animated redirect page that automatically forwards visitors to the mai
 
 - ⚡ Instant 5-second auto-redirect to www.mobrilz.com
 - 🎨 Modern UI with advanced animations:
-  - 3D floating container effect
-  - Glowing loader circles
-  - Dynamic multicolored particles
-  - Wave effect in progress bar
-  - Text glow animations
-  - Smooth gradient backgrounds
-  - Bouncing countdown numbers
+- 3D floating container effect
+- Glowing loader circles
+- Dynamic multicolored particles
+- Wave effect in progress bar
+- Text glow animations
+- Smooth gradient backgrounds
+- Bouncing countdown numbers
 - 📱 Fully responsive design
 - 🔄 Visual progress indicator and countdown
 - ✨ Dynamic particle background effects with color variations
